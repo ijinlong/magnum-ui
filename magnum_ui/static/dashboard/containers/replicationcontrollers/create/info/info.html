@@ -1,0 +1,50 @@
+<div ng-controller="createRCInfoController as ctrl">
+  <h1 translate>ReplicationController Details</h1>
+
+  <div class="content">
+    <div translate class="subtitle">Please provide the name of the Bay.</div>
+
+    <div class="form-group">
+      <div class="form-field required rc-model">
+        <label class="on-top"><translate>Bay Name</translate></label>
+        <select class="form-control" name="rc-bay"
+          ng-model="model.newRCSpec.bay_uuid"
+          ng-required="true"
+          ng-options="bay.id as bay.name for bay in ctrl.bays"
+          ng-change="changeBay()">
+        </select>
+      </div>
+    </div>
+
+    <h2 translate class="section-title">Bay Detail</h2>
+    <div class="subtitle" id="bay_detail_none" translate>
+      Choose a Bay
+    </div>
+    <div class="subtitle" id="bay_detail">
+      <dl class=dl-horizontal>
+        <dt translate>Name</dt>
+        <dd>{$ baydetail.name $}</dd>
+        <dt translate>ID</dt>
+        <dd>{$ baydetail.id $}</dd>
+        <dt translate>BayModel ID</dt>
+        <dd>{$ baydetail.baymodel_id $}</dd>
+        <dt translate>Master Count</dt>
+        <dd>{$ baydetail.master_count $}</dd>
+        <dt translate>Node Count</dt>
+        <dd>{$ baydetail.node_count $}</dd>
+        <dt translate>Timeout</dt>
+        <dd>{$ baydetail.timeout $}</dd>
+      </dl>
+    </div>
+
+    <h2 translate class="section-title">Select a file</h2>
+    <div class="subtitle" id="rc_detail_none" translate>
+    </div>
+     <input name="rc-manifest" type="file" 
+            bind="some.model.newRCSpec.manifest"
+            placeholder="{$ 'Manifest of the rc to create.'|translate $}">
+
+
+ </div>
+</div>
+        

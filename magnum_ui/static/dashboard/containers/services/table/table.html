@@ -1,0 +1,168 @@
+<table ng-controller="containersServiceTableController as table"
+  hz-table ng-cloak
+  st-table="table.iservices"
+  st-safe-src="table.services"
+  default-sort="name"
+  default-sort-reverse="false"
+  class="table-striped table-rsp table-detail modern">
+
+  <thead>
+    <!--
+      Table-batch-actions:
+      This is where batch actions like searching, creating, and deleting.
+    -->
+    <tr>
+      <th colspan="100" class="search-header">
+        <hz-magic-search-bar group-classes="input-group-sm" icon-classes="fa-search"
+          filter-facets="table.serviceFacets">
+        </hz-magic-search-bar>
+      </th>
+    </tr>
+    <tr>
+      <th colspan="100" class="action-col">
+        <action-list class="btn-addon">
+          <button
+            class="btn btn-default btn-sm btn-launch ng-scope"
+            ng-controller="containersServiceController as modal"
+            ng-click="modal.openServiceCreateWizard({successUrl: '/project/services/'})">
+            <span class="fa fa-plus" translate>Create Service</span>
+          </button> 
+        </action-list>
+        <action-list class="btn-addon">
+          <action
+            action-classes="'btn btn-default btn-sm btn-danger'"
+            disabled="numSelected === 0"
+            callback="table.batchDelete">
+            <span class="fa fa-trash-o" translate>Delete Services</span>
+          </action>
+        </action-list>
+      </th>
+    </tr>
+    <!--
+      Table-column-headers:
+      The headers for the table columns
+    -->
+    <tr>
+      <th class=select-col>
+        <input type="checkbox" hz-select-all="table.iservices">
+      </th>
+
+      <th class="expander"></th>
+
+      <th class="rsp-p1" st-sort="name" st-sort-default translate>
+        Name
+      </th>
+
+      <th class="rsp-p2" st-sort="labels" translate>
+        Labels
+      </th>
+
+      <th class="rsp-p1" st-sort="selector" translate>
+        Selector
+      </th>    
+
+      <th class="rsp-p1" st-sort="ip" translate>
+        IP
+      </th>
+
+      <th class="action-col" translate>
+        Actions
+      </th>
+     </tr>
+  </thead>
+  <tbody>
+    <!--
+      Table-rows:
+      This is where we declaratively define the table columns.
+      Include select-col if you want to select all.
+      Include expander if you want to inline details.
+      Include action-col if you want to perform actions.
+      rsp-p1 rsp-p2 are responsive priority as user resizes window.
+    -->
+
+    <tr ng-repeat-start="s in table.iservices track by s.id"
+        nt-class="{'st-selected': checked[s.id]}">
+
+      <td class="select-col">
+        <input type="checkbox"
+          ng-model="selected[s.id].checked"
+          hz-select="s">
+      </td>
+
+      <td class="expander">
+        <span class="fa fa-chevron-right"
+          hz-expand-detail
+          duration="200">
+        </span>
+      </td>
+
+      <td class="rsp-p1">{$ s.name $}</td>
+      <td class="rsp-p2">{$ s.labels $}</td>
+      <td class="rsp-p1">{$ s.selector $}</td>
+      <td class="rsp-p1">{$ s.ip $}</td>
+      
+
+      <td class="action-col">
+        <!--
+          Table-row-action-column:
+          Actions taken here applies to a single item/row.
+        -->
+
+        <action-list dropdown>
+          <action button-type="split-button"
+                  action-classes="'btn btn-default btn-sm btn-danger'"
+                  callback="table.singleDelete" item="s">
+              <translate>Delete</translate>
+            </action>
+          </menu>
+        </action-list>
+      </td>
+    </tr>
+    <tr ng-repeat-end class="detail-row">
+      <!--
+        Table-row-details:
+        Provides detail view of specific view, with more information than can be
+        displayed in the table alone.
+      -->
+
+      <td class="detail" colspan="100">
+        <dl class=dl-horizontal>
+
+          <dt translate>Name</dt>
+          <dd><a ng-href="{$ s.id $}">{$ s.name $}</a></dd>
+
+          <dt translate>Labels</dt>
+          <dd>{$ s.labels $}</dd>
+
+          <dt translate>Selector</dt>
+          <dd>{$ s.selector $}</dd>
+
+          <dt translate>IP</dt>
+          <dd>{$ s.ip $}</dd>
+
+          <dt translate>UUID</dt>
+          <dd>{$ s.uuid $}</dd>
+
+          <dt translate>Bay_uuid</dt>
+          <dd>{$ s.bay_uuid $}</dd>
+
+          <dt translate>Links</dt>
+          <dd>{$ s.links $}</dd>
+
+          <dt translate>Created</dt>
+          <dd>{$ s.created_at $}</dd>
+
+          <dt translate>Update</dt>
+          <dd>{$ s.updated_at $}</dd>
+        </dl>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <td colspan="100">
+        <span class="display">{$ table.iservices.length|itemCount $}</span>
+          <div st-pagination="" st-items-by-page="10"
+            st-displayed-pages="10"></div>
+        </td>
+  </tfoot>
+</table>

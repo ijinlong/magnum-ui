@@ -1,5 +1,5 @@
 /**
- * Copyright 2015, Cisco Systems
+ * Copyright 2015, IBM Systems
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,6 +41,21 @@
       getContainers: getContainers,
       deleteContainer: deleteContainer,
       deleteContainers: deleteContainers,
+      createPod: createPod,
+      getPod: getPod,
+      getPods: getPods,
+      deletePod: deletePod,
+      deletePods: deletePods,
+      createReplicationController: createReplicationController,
+      getReplicationController: getReplicationController,
+      getReplicationControllers: getReplicationControllers,
+      deleteReplicationController: deleteReplicationController,
+      deleteReplicationControllers: deleteReplicationControllers,
+      createService: createService,
+      getService: getService,
+      getServices: getServices,
+      deleteService: deleteService,
+      deleteServices: deleteServices,
 
     };
 
@@ -117,7 +132,6 @@
         })
     }
 
-
     ////////////////
     // Containers //
     ////////////////
@@ -154,6 +168,123 @@
       return apiService.delete('/api/containers/containers/', ids)
         .error(function() {
           toastService.add('error', gettext('Unable to delete the Containers.'));
+        });
+    }
+
+    //////////
+    // Pods //
+    //////////
+
+    function createPod(params) {
+        return apiService.post('/api/containers/pods/', params)
+          .error(function() {
+            toastService.add('error', gettext('Unable to create Pod.'));
+          });
+      }
+
+    function getPod(id) {
+        return apiService.get('/api/containers/pods/' + id)
+          .error(function() {
+            toastService.add('error', gettext('Unable to retrieve the Pods.'));
+          });
+      }
+
+    function getPods() {
+      return apiService.get('/api/containers/pods/')
+        .error(function() {
+          toastService.add('error', gettext('Unable to retrieve the Pods.'));
+        });
+    }
+
+    function deletePod(id) {
+      return apiService.delete('/api/containers/pods/', id)
+        .error(function() {
+          toastService.add('error', gettext('Unable to delete the Pod.'));
+        });
+    }
+
+    function deletePods(ids) {
+      return apiService.delete('/api/containers/pods/', ids)
+        .error(function() {
+          toastService.add('error', gettext('Unable to delete the Pods.'));
+        });
+    }
+
+    ///////////////////////////
+    //ReplicationControllers //
+    ///////////////////////////
+
+    function createReplicationController(params) {
+        return apiService.post('/api/containers/replicationcontrollers/', params)
+          .error(function() {
+            toastService.add('error', gettext('Unable to create ReplicationControllers.'));
+          });
+      }
+
+    function getReplicationController(id) {
+        return apiService.get('/api/containers/replicationcontrollers/' + id)
+          .error(function() {
+            toastService.add('error', gettext('Unable to retrieve the ReplicationControllers.'));
+          });
+      }
+
+    function getReplicationControllers() {
+      return apiService.get('/api/containers/replicationcontrollers/')
+        .error(function() {
+          toastService.add('error', gettext('Unable to retrieve the ReplicationControllers.'));
+        });
+    }
+
+    function deleteReplicationController(id) {
+      return apiService.delete('/api/containers/replicationcontrollers/', id)
+        .error(function() {
+          toastService.add('error', gettext('Unable to delete the ReplicationControllers.'));
+        });
+    }
+
+    function deleteReplicationControllers(ids) {
+      return apiService.delete('/api/containers/replicationcontrollers/', ids)
+        .error(function() {
+          toastService.add('error', gettext('Unable to delete the ReplicationControllers.'));
+        });
+    }
+
+    //////////////
+    // Services //
+    /////////////
+
+    function createService(params) {
+        return apiService.post('/api/containers/services/', params)
+          .error(function() {
+            toastService.add('error', gettext('Unable to create Service.'));
+          });
+      }
+
+    function getService(id) {
+        return apiService.get('/api/containers/services/' + id)
+          .error(function() {
+            toastService.add('error', gettext('Unable to retrieve the Services.'));
+          });
+      }
+
+    function getServices() {
+      return apiService.get('/api/containers/services/')
+        .error(function() {
+          toastService.add('error', gettext('Unable to retrieve the Services.'));
+        });
+    }
+
+    function deleteService(id) {
+      return apiService.delete('/api/containers/services/', id)
+        .error(function() {
+          toastService.add('error', gettext('Unable to delete the Service.'));
+        });
+    }
+
+    function deleteServices(ids) {
+      return apiService.delete('/api/containers/services/', ids)
+        .error(function() {
+          toastService.add('error', gettext('Unable to delete the Services.'));
         });
     }
   }

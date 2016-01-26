@@ -13,13 +13,33 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
+
 (function() {
   'use strict';
 
-  describe('horizon.dashboard.containers', function() {
-    it('should exist', function() {
-      expect(angular.module('horizon.dashboard.containers')).toBeDefined();
-    });
-  });
+  /**
+   * @ngdoc overview
+   * @name createBayWizardController
+   * @ngController
+   *
+   * @description
+   * Controller for the containers bay create modal
+   */
+  angular
+    .module('horizon.dashboard.containers.pods')
+    .controller('createPodWizardController', createPodWizardController);
+
+  createPodWizardController.$inject = [
+    '$scope',
+    'podModel',
+    'horizon.dashboard.containers.pods.workflow'
+  ];
+
+  function createPodWizardController($scope, model, workflow) {
+    $scope.workflow = workflow;
+    $scope.model = model;
+    $scope.model.init();
+    $scope.submit = $scope.model.createPod;
+  }
 
 })();

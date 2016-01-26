@@ -13,13 +13,20 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
+
 (function() {
   'use strict';
 
-  describe('horizon.dashboard.containers', function() {
-    it('should exist', function() {
-      expect(angular.module('horizon.dashboard.containers')).toBeDefined();
-    });
-  });
+  /**
+   * @ngdoc overview
+   * @name horizon.dashboard.containers.pod
+   * @ngModule
+   *
+   * @description
+   * Provides all the services and widgets require to display the pod
+   * panel
+   */
+  angular
+    .module('horizon.dashboard.containers.pods', []);
 
 })();

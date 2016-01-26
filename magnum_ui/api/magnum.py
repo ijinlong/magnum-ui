@@ -1,4 +1,4 @@
-#  Copyright 2015 Cisco Systems.
+#  Copyright 2015 IBM Systems.
 #
 #    Licensed under the Apache License, Version 2.0 (the "License"); you may
 #    not use this file except in compliance with the License. You may obtain
@@ -33,6 +33,11 @@ BAYMODEL_CREATE_ATTRS = ['name', 'image_id', 'flavor_id', 'master_flavor_id',
 BAY_CREATE_ATTRS = ['name', 'baymodel_id', 'node_count', 'discovery_url',
                     'bay_create_timeout', 'master_count']
 
+POD_CREATE_ATTRS = ['bay_uuid', 'manifest', 'manifest_url']
+
+RC_CREATE_ATTRS = ['bay_uuid', 'manifest', 'manifest_url']
+
+SERVICE_CREATE_ATTRS = ['bay_uuid', 'manifest', 'manifest_url']
 
 @memoized
 def magnumclient(request):
@@ -150,3 +155,91 @@ def container_show(request, id):
     :param id: ID of the container to get
     """
     return magnumclient(request).containers.get(id)
+
+
+def pod_create(request, **kwargs):
+    args = {}
+    for (key, value) in kwargs.items():
+        if key in POD_CREATE_ATTRS:
+            args[key] = value
+        else:
+            raise exceptions.InvalidAttribute(
+                "Key must be in %s" % ",".join(POD_CREATE_ATTRS))
+    return magnumclient(request).pods.create(**args)
+
+
+def pod_update(request, id, bay_ident, patch):
+    return magnumclient(request).pods.update(id, bay_ident, patch)
+
+
+def pod_delete(request, id, bay_ident):
+    return magnumclient(request).pods.delete(id, bay_ident)
+
+
+def pod_list(request, bay_ident, limit=None, marker=None, sort_key=None,
+             sort_dir=None, detail=True):
+    return magnumclient(request).pods.list(bay_ident, limit, marker, sort_key,
+                                           sort_dir, detail)
+
+
+def pod_show(request, id, bay_uuid):
+    return magnumclient(request).pods.get(id, bay_uuid)
+
+
+
+def rc_create(request, **kwargs):
+    args = {}
+    for (key, value) in kwargs.items():
+        if key in RC_CREATE_ATTRS:
+            args[key] = value
+        else:
+            raise exceptions.InvalidAttribute(
+                "Key must be in %s" % ",".join(RC_CREATE_ATTRS))
+    return magnumclient(request).rcs.create(**args)
+
+
+def rc_update(request, id, bay_ident, patch):
+    return magnumclient(request).rcs.update(id, bay_ident, patch)
+
+
+def rc_delete(request, id, bay_ident):
+    return magnumclient(request).rcs.delete(id, bay_ident)
+
+
+def rc_list(request, bay_ident, limit=None, marker=None, sort_key=None,
+             sort_dir=None, detail=True):
+    return magnumclient(request).rcs.list(bay_ident, limit, marker, sort_key,
+                                           sort_dir, detail)
+
+
+def rc_show(request, id, bay_uuid):
+    return magnumclient(request).rcs.get(id, bay_uuid)
+
+
+def service_create(request, **kwargs):
+    args = {}
+    for (key, value) in kwargs.items():
+        if key in POD_CREATE_ATTRS:
+            args[key] = value
+        else:
+            raise exceptions.InvalidAttribute(
+                "Key must be in %s" % ",".join(SERVICE_CREATE_ATTRS))
+    return magnumclient(request).services.create(**args)
+
+
+def service_update(request, id, bay_ident, patch):
+    return magnumclient(request).services.update(id, bay_ident, patch)
+
+
+def service_delete(request, id, bay_ident):
+    return magnumclient(request).services.delete(id, bay_ident)
+
+
+def service_list(request, bay_ident, limit=None, marker=None, sort_key=None,
+             sort_dir=None, detail=True):
+    return magnumclient(request).services.list(bay_ident, limit, marker,
+                                                sort_key, sort_dir, detail)
+
+
+def service_show(request, id, bay_uuid):
+    return magnumclient(request).services.get(id, bay_uuid)

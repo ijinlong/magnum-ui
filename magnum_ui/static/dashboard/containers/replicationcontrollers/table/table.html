@@ -1,0 +1,173 @@
+<table ng-controller="containersRCTableController as table"
+  hz-table ng-cloak
+  st-table="table.ircs"
+  st-safe-src="table.rcs"
+  default-sort="name"
+  default-sort-reverse="false"
+  class="table-striped table-rsp table-detail modern">
+
+  <thead>
+    <!--
+      Table-batch-actions:
+      This is where batch actions like searching, creating, and deleting.
+    -->
+    <tr>
+      <th colspan="100" class="search-header">
+        <hz-magic-search-bar group-classes="input-group-sm" icon-classes="fa-search"
+          filter-facets="table.replicationcontrollerFacets">
+        </hz-magic-search-bar>
+      </th>
+    </tr>
+    <tr>
+      <th colspan="100" class="action-col">
+        <action-list class="btn-addon">
+          <button
+            class="btn btn-default btn-sm btn-launch ng-scope"
+            ng-controller="containersRCController as modal"
+            ng-click="modal.openRCCreateWizard({successUrl: '/project/replicationcontrollers/'})">
+            <span class="fa fa-plus" translate>Create RC</span>
+          </button> 
+        </action-list>
+        <action-list class="btn-addon">
+          <action
+            action-classes="'btn btn-default btn-sm btn-danger'"
+            disabled="numSelected === 0"
+            callback="table.batchDelete">
+            <span class="fa fa-trash-o" translate>Delete RCs</span>
+          </action>
+        </action-list>
+      </th>
+    </tr>
+    <!--
+      Table-column-headers:
+      The headers for the table columns
+    -->
+    <tr>
+      <th class=select-col>
+        <input type="checkbox" hz-select-all="table.ircs">
+      </th>
+
+      <th class="expander"></th>
+
+      <th class="rsp-p1" st-sort="name" st-sort-default translate>
+        Name
+      </th>
+
+      <th class="rsp-p2" st-sort="id" translate>
+        UUID
+      </th>
+
+      <th class="rsp-p1" st-sort="images" translate>
+        Images
+      </th>    
+
+      <th class="rsp-p1" st-sort="labels" translate>
+        Labels
+      </th>
+ 
+      <th class="rsp-p1" st-sort="replicas" translate>
+        Replicas
+      </th>
+        
+      <th class="action-col" translate>
+        Actions
+      </th>
+     </tr>
+  </thead>
+  <tbody>
+    <!--
+      Table-rows:
+      This is where we declaratively define the table columns.
+      Include select-col if you want to select all.
+      Include expander if you want to inline details.
+      Include action-col if you want to perform actions.
+      rsp-p1 rsp-p2 are responsive priority as user resizes window.
+    -->
+
+    <tr ng-repeat-start="r in table.ircs track by r.id"
+        nt-class="{'st-selected': checked[r.id]}">
+
+      <td class="select-col">
+        <input type="checkbox"
+          ng-model="selected[r.id].checked"
+          hz-select="r">
+      </td>
+
+      <td class="expander">
+        <span class="fa fa-chevron-right"
+          hz-expand-detail
+          duration="200">
+        </span>
+      </td>
+
+      <td class="rsp-p1">{$ r.name $}</td>
+      <td class="rsp-p2">{$ r.id $}</td>
+      <td class="rsp-p1">{$ r.images $}</td>
+      <td class="rsp-p1">{$ r.labels $}</td>
+      <td class="rsp-p1">{$ r.replicas $}</td>
+
+      <td class="action-col">
+        <!--
+          Table-row-action-column:
+          Actions taken here applies to a single item/row.
+        -->
+
+        <action-list dropdown>
+          <action button-type="split-button"
+                  action-classes="'btn btn-default btn-sm btn-danger'"
+                  callback="table.singleDelete" item="r">
+              <translate>Delete</translate>
+            </action>
+          </menu>
+        </action-list>
+      </td>
+    </tr>
+    <tr ng-repeat-end class="detail-row">
+      <!--
+        Table-row-details:
+        Provides detail view of specific view, with more information than can be
+        displayed in the table alone.
+      -->
+
+      <td class="detail" colspan="100">
+        <dl class=dl-horizontal>
+
+          <dt translate>Name</dt>
+          <dd><a ng-href="{$ r.id $}">{$ r.name $}</a></dd>
+
+          <dt translate>UUID</dt>
+          <dd>{$ r.id $}</dd>
+
+          <dt translate>Images</dt>
+          <dd>{$ r.images $}</dd>
+
+          <dt translate>Labels</dt>
+          <dd>{$ r.labels $}</dd>
+
+          <dt translate>Replicas</dt>
+          <dd>{$ r.replicas $}</dd>
+
+          <dt translate>Bay_uuid</dt>
+          <dd>{$ r.bay_uuid $}</dd>
+
+          <dt translate>Links</dt>
+          <dd>{$ r.links $}</dd>
+
+          <dt translate>Images</dt>
+          <dd>{$ r.images $}</dd>
+
+          <dt translate>Create</dt>
+          <dd>{$ r.create $}</dd>
+          
+        </dl>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <td colspan="100">
+        <span class="display">{$ table.ircs.length|itemCount $}</span>
+          <div st-pagination="" st-items-by-page="10"
+            st-displayed-pages="10"></div>
+        </td>
+  </tfoot>
+</table>

@@ -1,0 +1,168 @@
+<table ng-controller="containersPodTableController as table"
+  hz-table ng-cloak
+  st-table="table.ipods"
+  st-safe-src="table.pods"
+  default-sort="name"
+  default-sort-reverse="false"
+  class="table-striped table-rsp table-detail modern">
+
+  <thead>
+    <!--
+      Table-batch-actions:
+      This is where batch actions like searching, creating, and deleting.
+    -->
+    <tr>
+      <th colspan="100" class="search-header">
+        <hz-magic-search-bar group-classes="input-group-sm" icon-classes="fa-search"
+          filter-facets="table.podFacets">
+        </hz-magic-search-bar>
+      </th>
+    </tr>
+    <tr>
+      <th colspan="100" class="action-col">
+        <action-list class="btn-addon">
+          <button
+            class="btn btn-default btn-sm btn-launch ng-scope"
+            ng-controller="containersPodController as modal"
+            ng-click="modal.openPodCreateWizard({successUrl: '/project/pods/'})">
+            <span class="fa fa-plus" translate>Create Pod</span>
+          </button> 
+        </action-list>
+        <action-list class="btn-addon">
+          <action
+            action-classes="'btn btn-default btn-sm btn-danger'"
+            disabled="numSelected === 0"
+            callback="table.batchDelete">
+            <span class="fa fa-trash-o" translate>Delete Pods</span>
+          </action>
+        </action-list>
+      </th>
+    </tr>
+    <!--
+      Table-column-headers:
+      The headers for the table columns
+    -->
+    <tr>
+      <th class=select-col>
+        <input type="checkbox" hz-select-all="table.ipods">
+      </th>
+
+      <th class="expander"></th>
+
+      <th class="rsp-p1" st-sort="name" st-sort-default translate>
+        Name
+      </th>
+
+      <th class="rsp-p2" st-sort="id" translate>
+        UUID
+      </th>
+
+      <th class="rsp-p1" st-sort="status" translate>
+        Status
+      </th>    
+
+      <th class="rsp-p1" st-sort="host" translate>
+        Host
+      </th>
+
+      <th class="action-col" translate>
+        Actions
+      </th>
+     </tr>
+  </thead>
+  <tbody>
+    <!--
+      Table-rows:
+      This is where we declaratively define the table columns.
+      Include select-col if you want to select all.
+      Include expander if you want to inline details.
+      Include action-col if you want to perform actions.
+      rsp-p1 rsp-p2 are responsive priority as user resizes window.
+    -->
+
+    <tr ng-repeat-start="p in table.ipods track by p.id"
+        nt-class="{'st-selected': checked[p.id]}">
+
+      <td class="select-col">
+        <input type="checkbox"
+          ng-model="selected[p.id].checked"
+          hz-select="p">
+      </td>
+
+      <td class="expander">
+        <span class="fa fa-chevron-right"
+          hz-expand-detail
+          duration="200">
+        </span>
+      </td>
+
+      <td class="rsp-p1">{$ p.name $}</td>
+      <td class="rsp-p2">{$ p.id $}</td>
+      <td class="rsp-p1">{$ p.status $}</td>
+      <td class="rsp-p1">{$ p.host $}</td>
+      
+
+      <td class="action-col">
+        <!--
+          Table-row-action-column:
+          Actions taken here applies to a single item/row.
+        -->
+
+        <action-list dropdown>
+          <action button-type="split-button"
+                  action-classes="'btn btn-default btn-sm btn-danger'"
+                  callback="table.singleDelete" item="p">
+              <translate>Delete</translate>
+            </action>
+          </menu>
+        </action-list>
+      </td>
+    </tr>
+    <tr ng-repeat-end class="detail-row">
+      <!--
+        Table-row-details:
+        Provides detail view of specific view, with more information than can be
+        displayed in the table alone.
+      -->
+
+      <td class="detail" colspan="100">
+        <dl class=dl-horizontal>
+
+          <dt translate>Name</dt>
+          <dd><a ng-href="{$ p.id $}">{$ p.name $}</a></dd>
+
+          <dt translate>UUID</dt>
+          <dd>{$ p.id $}</dd>
+
+          <dt translate>Status</dt>
+          <dd>{$ p.status $}</dd>
+
+          <dt translate>Host</dt>
+          <dd>{$ p.host $}</dd>
+
+          <dt translate>Created</dt>
+          <dd>{$ p.created_at $}</dd>
+
+          <dt translate>Bay_uuid</dt>
+          <dd>{$ p.bay_uuid $}</dd>
+
+          <dt translate>Labels</dt>
+          <dd>{$ p.labels $}</dd>
+
+          <dt translate>Images</dt>
+          <dd>{$ p.images $}</dd>
+
+          <dt translate>Update</dt>
+          <dd>{$ p.updated_at $}</dd>
+        </dl>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <td colspan="100">
+        <span class="display">{$ table.ipods.length|itemCount $}</span>
+          <div st-pagination="" st-items-by-page="10"
+            st-displayed-pages="10"></div>
+        </td>
+  </tfoot>
+</table>

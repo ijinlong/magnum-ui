@@ -16,9 +16,9 @@
 (function() {
   'use strict';
 
-  describe('horizon.dashboard.containers', function() {
+  describe('horizon.dashboard.containers.replicationcontrollers', function() {
     it('should exist', function() {
-      expect(angular.module('horizon.dashboard.containers')).toBeDefined();
+      expect(angular.module('horizon.dashboard.containers.replicationcontrollers')).toBeDefined();
     });
   });
 

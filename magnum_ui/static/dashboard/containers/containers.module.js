@@ -1,5 +1,5 @@
 /**
- * Copyright 2015 Cisco Systems, Inc.
+ * Copyright 2015 IBM Systems.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -29,6 +29,9 @@
       'horizon.dashboard.containers.bays',
       'horizon.dashboard.containers.baymodels',
       'horizon.dashboard.containers.containers',
+      'horizon.dashboard.containers.pods',
+      'horizon.dashboard.containers.replicationcontrollers',
+      'horizon.dashboard.containers.services',
       'ngRoute'
     ])
     .config(config)
@@ -61,6 +64,15 @@
     })
     .when('/project/baymodels/:baymodelId', {
       templateUrl: path + 'baymodels/detail/detail.html'
+    })
+    .when('/project/pods', {
+      templateUrl: path + 'pods/table/table.html'
+    })
+    .when('/project/replicationcontrollers', {
+      templateUrl: path + 'replicationcontrollers/table/table.html'
+    })
+    .when('/project/services', {
+      templateUrl: path + 'services/table/table.html'
     })
     .when('/project/bays', {
       templateUrl: path + 'bays/table/table.html'
